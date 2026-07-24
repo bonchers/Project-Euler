@@ -1,4 +1,3 @@
-import math
 LIMIT = 10000
 period = [] # use -1 as placeholder for perfect squares
 
