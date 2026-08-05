@@ -1,4 +1,4 @@
-with open('c:\Documents\Python Files\Project Euler\p59_cipher.txt', 'r') as p59:
+with open('./Text Files/p59_cipher.txt', 'r') as p59:
     cipher = p59.read().split(',')
 # ord('a') to ord('z') = 97 to 122 (inclusive)
 '''a = b'T'

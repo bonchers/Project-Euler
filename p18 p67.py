@@ -16,7 +16,7 @@ pyramid = '''75
 63 66 04 68 89 53 67 30 73 16 69 87 40 31
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23'''
 
-with open('c:\Documents\Python Files\Project Euler\p67_pyramid.txt', 'r') as p67:
+with open('./Text Files/p67_pyramid.txt', 'r') as p67:
     p67pyramid = p67.read()
 
 
@@ -35,8 +35,9 @@ for row in rows:
 
 def expand(arr, index):
     # if len(arr) == 15 #       <<<<    Problem 18
+
     if len(arr) == 100: #       <<<<    Problem 67
-        return arr
+        return arr      #       <<<<
     
     temp = []
     for _ in range(len(arr) + 1):
