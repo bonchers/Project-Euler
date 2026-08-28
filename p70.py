@@ -1,4 +1,6 @@
-LIMIT = 1000000
+LIMIT = 999999 # 1 < n < 10^7
+
+# copied functions from p69.py
 
 primes = [2]
 def getFactors(x): # calculate and return array of prime factors of x, excluding 1 and x
@@ -50,12 +52,28 @@ def totient(x):
 
     return relprimes
 
-maxTotR = 2/totient(2) # start with totient ratio n/t(n) of 2
-maxn = 2
-for n in range(3, LIMIT + 1):
-    currTotR = n/totient(n)
-    if currTotR > maxTotR:
-        maxTotR = currTotR
-        maxn = n
+def isTotPerm(n):
+    digits = [0 for _ in range(10)]
 
-print(maxn)
+    for d in str(n):
+        digits[int(d)] += 1
+
+    for d in str(totient(n)):
+        digits[int(d)] -= 1
+        if digits[int(d)] < 0: return False
+
+    for d in digits:
+        if d != 0: return False
+    
+    return True
+
+minRatio = 2/totient(2)
+minN = 2
+for n in range(3, LIMIT + 1):
+    tot = totient(n)
+    totRatio = n/tot
+    if totRatio < minRatio and isTotPerm(n):
+        minRatio = totRatio
+        minN = n
+
+print(minN, minRatio)
