@@ -1,25 +1,26 @@
-LIMIT = 999999 # 1 < n < 10^7
-
-# copied functions from p69.py
+LIMIT = (10**7) - 1 # 1 < n < 10^7
 
 primes = [2]
-def getFactors(x): # calculate and return array of prime factors of x, excluding 1 and x
-    factors = []
-
+for n in range(3, int((LIMIT + 1)**0.5 + 1), 2):
     for p in primes:
-        if x % p == 0 and x > p: factors.append(p) # add factors from current primes[]
-        if p ** 2 > x: break
+        if p**2 > n:
+            primes.append(n)
+            break
+        if n % p == 0: break
 
-    for n in range(primes[-1] + 1, x + 1):
-        for p in primes:
-            if n % p == 0: break
-            if p ** 2 > n:
-                primes.append(n)
-                if x % n == 0 and n < x: factors.append(n) # add any other factors
-                break
+factorlist = [[] for _ in range(LIMIT)] # factorlist[n - 1] returns prime factors of n, excluding 1 and n
+for p in primes:
+    multiple = 2 * p # start from 2p as prime factors of n will not include itself, i.e. factorlist[p - 1] should not include p
+    while multiple < LIMIT:
+        factorlist[multiple - 1].append(p)
+        multiple += p
+print("calculated prime factors")
+# why exclude 1 and n? 1 is not considered anyway, it is always relatively prime, not computed in totient()
+# in the case of n, totient() computes and removes any multiples of a factor, f, or removes 1/f numbers below n (rounded down)
+# numbers below n do not contain a multiple of n (they are less than n itself), so it is not computed anyway
 
-    return factors
 
+# copied choices() and totient() from p69.py
 def choices(arr, currSet = []):
     allchoices = []
 
@@ -33,7 +34,7 @@ def choices(arr, currSet = []):
 
 def totient(x):
     relprimes = x - 1 # start by assuming all relatively prime, from 1 to x - 1 (inclusive)
-    factors = getFactors(x)
+    factors = factorlist[x - 1]
 
     for fset in choices(factors):
         product = 1
@@ -52,13 +53,13 @@ def totient(x):
 
     return relprimes
 
-def isTotPerm(n):
+def isPerm(a, b):
     digits = [0 for _ in range(10)]
 
-    for d in str(n):
+    for d in str(a):
         digits[int(d)] += 1
 
-    for d in str(totient(n)):
+    for d in str(b):
         digits[int(d)] -= 1
         if digits[int(d)] < 0: return False
 
@@ -72,8 +73,9 @@ minN = 2
 for n in range(3, LIMIT + 1):
     tot = totient(n)
     totRatio = n/tot
-    if totRatio < minRatio and isTotPerm(n):
+    if totRatio < minRatio and isPerm(n, tot):
         minRatio = totRatio
         minN = n
+        print(minN, tot, minRatio)
 
 print(minN, minRatio)

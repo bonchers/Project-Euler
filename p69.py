@@ -17,6 +17,9 @@ def getFactors(x): # calculate and return array of prime factors of x, excluding
                 break
 
     return factors
+# why exclude 1 and x? 1 is not considered anyway, it is always relatively prime, not computed in totient()
+# in the case of x, totient() computes and removes any multiples of a factor, f, or removes 1/f numbers below x (rounded down)
+# numbers below x do not contain a multiple of x (they are less than x itself), so it is not computed anyway
 
 def choices(arr, currSet = []):
     allchoices = []
