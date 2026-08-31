@@ -1,13 +1,12 @@
-LIMIT = (10**7) - 1 # 1 < n < 10^7
+LIMIT = 1000000 # n <= 1 000 000
 
 primes = [2]
 for n in range(3, int(LIMIT/2 + 1), 2):
-    if n == 7918: print("hi")
     for p in primes:
-        if n % p == 0: break
         if p**2 > n:
             primes.append(n)
             break
+        if n % p == 0: break
 
 factorlist = [[] for _ in range(LIMIT)] # factorlist[n - 1] returns prime factors of n, excluding 1 and n
 for p in primes:
@@ -15,11 +14,10 @@ for p in primes:
     while multiple < LIMIT:
         factorlist[multiple - 1].append(p)
         multiple += p
-# why exclude 1 and n? 1 is not considered anyway, it is always relatively prime, not computed in totient()
-# in the case of n, totient() computes and removes any multiples of a factor, f, or removes 1/f numbers below n (rounded down)
-# numbers below n do not contain a multiple of n (they are less than n itself), so it is not computed anyway
+# why exclude 1 and x? 1 is not considered anyway, it is always relatively prime, not computed in totient()
+# in the case of x, totient() computes and removes any multiples of a factor, f, or removes 1/f numbers below x (rounded down)
+# numbers below x do not contain a multiple of x (they are less than x itself), so it is not computed anyway
 
-# copied choices() and totient() from p69.py
 def choices(arr, currSet = []):
     allchoices = []
 
@@ -51,29 +49,12 @@ def totient(x):
 
     return relprimes
 
-def isPerm(a, b):
-    digits = [0 for _ in range(10)]
+maxTotR = 2/totient(2) # start with totient ratio n/t(n) of 2
+maxn = 2
+for n in range(3, LIMIT + 1):
+    currTotR = n/totient(n)
+    if currTotR > maxTotR:
+        maxTotR = currTotR
+        maxn = n
 
-    for d in str(a):
-        digits[int(d)] += 1
-
-    for d in str(b):
-        digits[int(d)] -= 1
-        if digits[int(d)] < 0: return False
-
-    for d in digits:
-        if d != 0: return False
-    
-    return True
-
-minRatio = 2/totient(2)
-minN = 2
-for n in range(int(LIMIT * (3/4)), LIMIT + 1): # start from 75% because its faster idk just pretend this is a legit strategy | starting from 3 took 102.953s starting from 75% took 40.131s
-    tot = totient(n)
-    totRatio = n/tot
-    if n == 87109: print(n, tot, totRatio)
-    if totRatio < minRatio and isPerm(n, tot):
-        minRatio = totRatio
-        minN = n
-
-print(minN)
+print(maxn)
