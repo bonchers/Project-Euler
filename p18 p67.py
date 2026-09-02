@@ -1,5 +1,4 @@
 # Problem 18 Pyramid
-
 pyramid = '''75
 95 64
 17 47 82
