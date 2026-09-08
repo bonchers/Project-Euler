@@ -1,4 +1,4 @@
-with open('./Text Files/p42_words.txt', 'r') as p42:
+with open('./Text Files/0042_words.txt', 'r') as p42:
     words = p42.read()
 wordlist = words.strip('\"').split('\",\"') #  ","
 

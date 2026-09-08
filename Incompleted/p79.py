@@ -1,4 +1,4 @@
-with open('./Text Files/p79_keylog.txt', 'r') as p79:
+with open('./Text Files/0079_keylog.txt', 'r') as p79:
     keylog = p79.read()
 
 logins = keylog.split('\n')[:-1] # string value of each login

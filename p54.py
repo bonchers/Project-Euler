@@ -1,4 +1,4 @@
-with open('./Text Files/p54_poker.txt', 'r') as p54:
+with open('./Text Files/0054_poker.txt', 'r') as p54:
     pokers = p54.read().split()
 
 cards = [[], []]

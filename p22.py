@@ -22,7 +22,7 @@ def selsorttwo(arr : list, val : list):
             arr[i], arr[min] = arr[min], arr[i]
             val[i], val[min] = val[min], val[i]
 
-with open('./Text Files/p22_names.txt', 'r') as p22:
+with open('./Text Files/0022_names.txt', 'r') as p22:
     nameslist = p22.read()
 
 namestemp = nameslist.split(',')
@@ -75,4 +75,4 @@ scoresum = 0
 for score in scores:
     scoresum += score
 
-print('scoresum:', scoresum)
+print(scoresum)

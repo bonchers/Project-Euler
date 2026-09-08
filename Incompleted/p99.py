@@ -1,4 +1,4 @@
-with open('./Text Files/p99_base_exp.txt', 'r') as p99:
+with open('./Text Files/0099_base_exp.txt', 'r') as p99:
     p99BaseExp = p99.read()
 
 base = []
