@@ -1,4 +1,3 @@
-# Problem 18 Pyramid
 pyramid = '''75
 95 64
 17 47 82
@@ -15,15 +14,7 @@ pyramid = '''75
 63 66 04 68 89 53 67 30 73 16 69 87 40 31
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23'''
 
-with open('./Text Files/0067_pyramid.txt', 'r') as p67:
-    p67pyramid = p67.read()
-
-
-# rows = pyramid.split('\n') #  <<<<    Problem 18
-rows = p67pyramid.split('\n') #  <<<<    Problem 67
-
-
-# Solution
+rows = pyramid.split('\n')
 
 tri = []
 for row in rows:
@@ -33,10 +24,8 @@ for row in rows:
     tri.append(nexttemp)
 
 def expand(arr, index):
-    # if len(arr) == 15 #       <<<<    Problem 18
-
-    if len(arr) == 100: #       <<<<    Problem 67
-        return arr      #       <<<<
+    if len(arr) == 15:
+        return arr
     
     temp = []
     for _ in range(len(arr) + 1):
@@ -59,4 +48,4 @@ def expand(arr, index):
     return expand(newarr, index + 1)
 
 final = expand(tri[0], 0)
-print('max:', max(final))
+print(max(final))
