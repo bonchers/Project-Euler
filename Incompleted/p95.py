@@ -10,11 +10,10 @@ for n in range(3, LIMIT + 1, 2):
             primes.append(n)
             primeset.add(n)
             break
-[primes[i] for i in range(40)]
 
 def divisorSum(x):
     divsum = 1
-    firstFactor = -1
+    firstFactor = -1 # value of -1 represents first factor is not found yet
     for p in primes:
         if p > x * 2 or (firstFactor != -1 and p > x/firstFactor): break
         if x % p == 0:
@@ -25,16 +24,40 @@ def divisorSum(x):
                 divisor *= p
 
             divsum += sum * divsum
-            print(sum, divsum)
+    return divsum - x # don't include x itself in the sum
 
-    print('\n')
-    return divsum - x
+chainLength = [0 for _ in range(LIMIT)] # chainLength[n - 1] is for n, value of -1 means it is in a chain that exceeds LIMIT or not a chain, 0 means not checked yet
+chainLength[0] = 1 # at n = 1, chainLength is 1 (it loops to itself)
+longestChain = []
+for n in range(2, LIMIT + 1): # 1 will loop to 0, start at 2 instead
+    if n % 100000 == 0: print(n)
+    if n in primeset:
+        chainLength[n - 1] = 1
+        continue # primes will give 1 which loops to 0, skip as they are confirmed to not be longest chains
 
-divisorSum(284)
-divisorSum(220)
+    chain = [n]
+    next = divisorSum(n)
+    while next not in chain: # 3 conditions for breaking loop: (1) loop found/next is in chain, (2) next exceeds LIMIT, (3) chain length of next already found
+        if next > LIMIT or chainLength[next - 1] != 0: break # if next == 1, chainlength[1 - 1] is already defined as 1 (above) so this will break
+        chain.append(next)
+        next = divisorSum(next)
 
-# first fix divisorSum()
-
-for n in range(4, LIMIT + 1): # 1 will loop to itself, 2 and 3 are primes, start at 4 instead
-    if n in primeset: continue
+    if next > LIMIT or chainLength[next - 1] == -1:
+        for item in chain:
+            chainLength[item - 1] = -1 # they lead to a chain exceeding LIMIT
+        continue
     
+    for i in range(len(chain)):
+        if chain[i] != next:
+            chainLength[chain[i] - 1] = -1
+        else:
+            loopStart = i
+            break
+
+    thisChainLength = len(chain) - (loopStart + 1) # add 1 to change loopStart from 0-indexed to 1-indexed
+    for i in range(loopStart, len(chain)):
+        chainLength[chain[i] - 1] = thisChainLength
+
+    if thisChainLength > len(longestChain): longestChain = chain[loopStart:]
+
+print(min(longestChain))
