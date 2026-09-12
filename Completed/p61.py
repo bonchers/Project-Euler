@@ -27,23 +27,26 @@ for base in range(3, 9):
 def isCyclic(a, b):
     endA = int(str(a)[-2:])
     startB = int(str(b)[:2])
-    if startB > endA: return -1 # -1 means is not cyclic and startB exceeds endA, meaning we have searched the sorted array sufficiently to confirm there is no cyclic value for A
-    else: return int(endA == startB) # 0 means False // not cyclic, 1 means True // is cyclic
+    return int(endA == startB) # 0 means False // not cyclic, 1 means True // is cyclic
 
-def search(arr, missingFigs): # missingFigs a set, of figurate bases (3-8) which are not yet in arr
+def search(arr, missingFigs): # missingFigs is a set, of figurate bases (3-8) which are not yet in arr
     solution = []
     if len(missingFigs) == 0:
-        if isCyclic(arr[-1], arr[0]): return [arr]
+        if isCyclic(arr[-1], arr[0]): return arr
         return []
 
     for base in missingFigs:
         for fig in figurates[base]:
             if isCyclic(arr[-1], fig) == 0: continue
-            if isCyclic(arr[-1], fig) == -1: return []
+            if isCyclic(arr[-1], fig) == -1:
+                print(arr)
+                return []
             else: solution += search(arr + [fig], missingFigs - {base})
 
     return solution
 
 for start in figurates[3]:
     result = search([start], {i for i in range(4, 9)})
-    if len(result) > 0: print(result)
+    if len(result) > 0:
+        print(sum(result))
+        break
