@@ -1,14 +1,14 @@
-SIZE = 80 # matrix is 80x80
-
 with open('./Text Files/0081_matrix.txt', 'r') as p81:
     p81matrix = p81.read()
 
 matrix = []
-for row in p81matrix.split('\n')[:-1]: # don't include the last element as it is just a newline character
-    appendarr = []
+for row in p81matrix.split('\n')[:-1]: # don't include the last row as it is just a newline character
+    appendrow = []
     for s in row.split(','):
-        appendarr.append(int(s))
-    matrix.append(appendarr)
+        appendrow.append(int(s))
+    matrix.append(appendrow)
+
+SIZE = len(matrix) # matrix is 80x80
 
 opening = [] # contains arrays of diagonal (top right tilt) values with lengths incrementing from 1 to 80 (inclusive)
 for i in range(SIZE): # i represents steps from beginning
